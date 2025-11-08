@@ -122,6 +122,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &216827109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 216827111}
+  - component: {fileID: 216827110}
+  m_Layer: 0
+  m_Name: Testing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &216827110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216827109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1179ee9920e41f409894af67a54fbe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &216827111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216827109}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.87385845, y: -0.074180745, z: 0.0402254}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &307552645
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,9 +704,12 @@ MonoBehaviour:
   _enemiesPosRoot: {fileID: 307552646}
   _mainCharacterPos: {fileID: 843023358}
   _battleCharactersPrefabs:
-  - {fileID: 8332462728257720906, guid: 2450088860ba7c246be08eef21412005, type: 3}
-  _enemiesPrefabs:
+  - {fileID: 877381902975803504, guid: ac9f2b2f3934751419eb1973fb2df511, type: 3}
   - {fileID: 877381902975803504, guid: 94e4c7caf7f6b714aafecc4b831305dc, type: 3}
+  - {fileID: 877381902975803504, guid: 94e4c7caf7f6b714aafecc4b831305dc, type: 3}
+  _enemiesPrefabs:
+  - {fileID: 8332462728257720906, guid: 2450088860ba7c246be08eef21412005, type: 3}
+  - {fileID: 8332462728257720906, guid: 2450088860ba7c246be08eef21412005, type: 3}
   _mainCharacterPrefab: {fileID: 2242157175781055342, guid: 03d0c8a1bb371c54c96cca2c1ffc54a7, type: 3}
 --- !u!114 &2021724616
 MonoBehaviour:
@@ -753,3 +800,4 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 2111429054}
   - {fileID: 2021724617}
+  - {fileID: 216827111}

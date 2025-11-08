@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
+      propertyPath: _damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
+      propertyPath: _isEnemy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
+      propertyPath: _initiative
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2242157175781055342, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_Name
       value: Wolf
