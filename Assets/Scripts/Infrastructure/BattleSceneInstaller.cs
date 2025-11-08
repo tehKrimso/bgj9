@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Characters;
+using InputService;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -17,19 +18,30 @@ namespace Infrastructure
         [SerializeField] private List<GameObject> _battleCharactersPrefabs;
         [SerializeField] private List<GameObject> _enemiesPrefabs;
         [SerializeField] private GameObject _mainCharacterPrefab;
+
+        [Header("Modifiers Table")] 
+        [SerializeField] private int _healthModifier;
+        [SerializeField] private int _damageModifier;
+        [SerializeField] private int _speedModifier;
         
         private ICharacterFactory _characterFactory;
         private BattleTurnsManager _battleTurnsManager;
+        private IInputService _input;
+        
+        private BaseCharacterStats _modifiersTable;
         
         
         public override void InstallBindings()
         {
             Debug.Log("BattleSceneInstaller: InstallBindings start");
+            _modifiersTable = new BaseCharacterStats(_healthModifier, _damageModifier, _speedModifier);
 
+            _input = new StandaloneInputService();
             _characterFactory = new CharactersFactory();
             _battleTurnsManager = new BattleTurnsManager();
             
             Container.Bind<ICharacterFactory>().FromInstance(_characterFactory).AsSingle().NonLazy();
+            Container.Bind<IInputService>().FromInstance(_input).AsSingle().NonLazy();
             Container.Bind<BattleTurnsManager>().FromInstance(_battleTurnsManager).AsSingle().NonLazy();
             
             SpawnBattleCharacters();
@@ -60,14 +72,16 @@ namespace Infrastructure
             var characterGameObject = _characterFactory.CreateBattleCharacter(prefab, parent);
             
             BattleCharacter battleCharacter = characterGameObject.GetComponent<BattleCharacter>();
-            battleCharacter.Init(_battleTurnsManager);
+            battleCharacter.Init(_battleTurnsManager, _modifiersTable);
             
             _battleTurnsManager.AddCharacter(battleCharacter);
         }
 
         private void SpawnMainCharacter(GameObject prefab, Transform parent)
         {
-            _characterFactory.CreateMainCharacter(prefab, parent);
+            var mainCharacterGameObject = _characterFactory.CreateMainCharacter(prefab, parent);
+            MainCharacter mainCharacter = mainCharacterGameObject.GetComponent<MainCharacter>();
+            mainCharacter.Initialize(_input);
         }
         
         

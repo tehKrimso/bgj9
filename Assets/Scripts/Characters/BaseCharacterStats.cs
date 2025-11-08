@@ -1,5 +1,8 @@
+using System;
+
 namespace Characters
 {
+    [Serializable]
     public class BaseCharacterStats
     {
         public int Health;

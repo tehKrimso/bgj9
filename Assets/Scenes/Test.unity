@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1179ee9920e41f409894af67a54fbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TurnLength: 0.5
 --- !u!4 &216827111
 Transform:
   m_ObjectHideFlags: 0
@@ -704,13 +705,13 @@ MonoBehaviour:
   _enemiesPosRoot: {fileID: 307552646}
   _mainCharacterPos: {fileID: 843023358}
   _battleCharactersPrefabs:
-  - {fileID: 877381902975803504, guid: ac9f2b2f3934751419eb1973fb2df511, type: 3}
-  - {fileID: 877381902975803504, guid: 94e4c7caf7f6b714aafecc4b831305dc, type: 3}
-  - {fileID: 877381902975803504, guid: 94e4c7caf7f6b714aafecc4b831305dc, type: 3}
+  - {fileID: 8332462728257720906, guid: 2450088860ba7c246be08eef21412005, type: 3}
   _enemiesPrefabs:
-  - {fileID: 8332462728257720906, guid: 2450088860ba7c246be08eef21412005, type: 3}
-  - {fileID: 8332462728257720906, guid: 2450088860ba7c246be08eef21412005, type: 3}
+  - {fileID: 877381902975803504, guid: 94e4c7caf7f6b714aafecc4b831305dc, type: 3}
   _mainCharacterPrefab: {fileID: 2242157175781055342, guid: 03d0c8a1bb371c54c96cca2c1ffc54a7, type: 3}
+  _healthModifier: 2
+  _damageModifier: 5
+  _speedModifier: 2
 --- !u!114 &2021724616
 MonoBehaviour:
   m_ObjectHideFlags: 0
