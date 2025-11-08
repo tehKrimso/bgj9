@@ -17,9 +17,12 @@ namespace Characters
         [SerializeField] private int _damage;
         [SerializeField] private int _initiative;
         
+        
+        
         [Header("Additional parameters")]
         [SerializeField] private bool _isEnemy;
         [SerializeField] private BattleStrategie _battleStrategie;
+        [SerializeField] private int _emptyBottleDamage = 2;
 
         private BattleTurnsManager _battleTurnsManager;
         
@@ -83,22 +86,17 @@ namespace Characters
             }
         }
 
-        public void AddModifiers(Stack<IngredientType> modifiers)
+        public void AddModifiers(IngredientType[] modifiers)
         {
             Debug.Log($"Before {gameObject.name} has {_characterStats.Damage}+{_characterActiveModifiers.Damage} damage, {_characterStats.Health} health, {_characterStats.Initiative}+{_characterActiveModifiers.Initiative} initiative");
 
-            var modifiersCount = modifiers.Count;
-            if (modifiers.Count == 0)
-            {
-                TakeDamage(2); //TODO magic number
-                Debug.Log($"After {gameObject.name} has {_characterStats.Damage}+{_characterActiveModifiers.Damage} damage, {_characterStats.Health} health, {_characterStats.Initiative}+{_characterActiveModifiers.Initiative} initiative");
-                return;
-            }
+            int modifiersCount = modifiers.Length;
+            int emptySlots = 0;
 
             
             for (int i = 0; i < modifiersCount; i++)
             {
-                IngredientType ingredient = modifiers.Pop();
+                IngredientType ingredient = modifiers[i];
                 switch (ingredient)
                 {
                     case IngredientType.Health:
@@ -112,8 +110,14 @@ namespace Characters
                         break;
                     case IngredientType.Empty:
                     default:
+                        emptySlots++;
                         break;
                 }
+            }
+
+            if (emptySlots == modifiersCount) //empty bottle
+            {
+                TakeDamage(_emptyBottleDamage);
             }
             
             Debug.Log($"After {gameObject.name} has {_characterStats.Damage}+{_characterActiveModifiers.Damage} damage, {_characterStats.Health} health, {_characterStats.Initiative}+{_characterActiveModifiers.Initiative} initiative");

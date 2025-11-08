@@ -18,6 +18,8 @@ namespace Infrastructure
         [SerializeField] private List<GameObject> _battleCharactersPrefabs;
         [SerializeField] private List<GameObject> _enemiesPrefabs;
         [SerializeField] private GameObject _mainCharacterPrefab;
+        [SerializeField] private GameObject _potionPrefab;
+        
 
         [Header("Modifiers Table")] 
         [SerializeField] private int _healthModifier;
@@ -25,9 +27,10 @@ namespace Infrastructure
         [SerializeField] private int _speedModifier;
         
         private ICharacterFactory _characterFactory;
-        private BattleTurnsManager _battleTurnsManager;
         private IInputService _input;
-        
+        private BattleTurnsManager _battleTurnsManager;
+        private PotionFactory _potionFactory;
+
         private BaseCharacterStats _modifiersTable;
         
         
@@ -39,10 +42,12 @@ namespace Infrastructure
             _input = new StandaloneInputService();
             _characterFactory = new CharactersFactory();
             _battleTurnsManager = new BattleTurnsManager();
+            _potionFactory = new PotionFactory(_potionPrefab, _mainCharacterPos);
             
             Container.Bind<ICharacterFactory>().FromInstance(_characterFactory).AsSingle().NonLazy();
             Container.Bind<IInputService>().FromInstance(_input).AsSingle().NonLazy();
             Container.Bind<BattleTurnsManager>().FromInstance(_battleTurnsManager).AsSingle().NonLazy();
+            Container.Bind<PotionFactory>().FromInstance(_potionFactory).AsSingle().NonLazy();
             
             SpawnBattleCharacters();
             SpawnEnemyCharacters();
@@ -81,7 +86,7 @@ namespace Infrastructure
         {
             var mainCharacterGameObject = _characterFactory.CreateMainCharacter(prefab, parent);
             MainCharacter mainCharacter = mainCharacterGameObject.GetComponent<MainCharacter>();
-            mainCharacter.Initialize(_input);
+            mainCharacter.Initialize(_input, _potionFactory);
         }
         
         

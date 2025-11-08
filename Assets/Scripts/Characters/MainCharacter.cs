@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Infrastructure;
 using InputService;
 using UnityEngine;
+using Zenject;
 
 namespace Characters
 {
@@ -15,15 +17,20 @@ namespace Characters
     public class MainCharacter : MonoBehaviour
     {
         [SerializeField] private int _maxPotionSize;
+        private int _currentPotionSize;
 
         private IInputService _input;
         
-        private Stack<IngredientType> _currentIngredients;
+        private IngredientType[] _currentIngredients;
+        
+        private PotionFactory _potionFactory;
 
-        public void Initialize(IInputService input)
+        public void Initialize(IInputService input, PotionFactory potionFactory)
         {
             _input = input;
-            _currentIngredients = new Stack<IngredientType>();
+            _currentIngredients = new IngredientType[_maxPotionSize];
+            _potionFactory = potionFactory;
+            ClearIngredientArray();
             
             //init avaliable ingredients here?
             
@@ -66,8 +73,10 @@ namespace Characters
                 {
                     //Debug.Log($"Hit {hit.collider.name}");
                     
-                    character.AddModifiers(_currentIngredients);
-                    _currentIngredients.Clear();
+                    Potion potion = _potionFactory.InstantiatePotion(_currentIngredients, character);
+                    
+                    ClearIngredientArray();
+                    potion.LaunchPotion();
                 }
                 else
                 {
@@ -80,10 +89,11 @@ namespace Characters
         {
             //Debug.Log($"Trying add ingredient {ingredientType.ToString()}");
 
-            if (_currentIngredients.Count < _maxPotionSize)
+            if (_currentPotionSize < _maxPotionSize)
             {
-                _currentIngredients.Push(ingredientType);
-                Debug.Log($"Added {ingredientType.ToString()}, potion now contains {_currentIngredients.Count} ingredients");
+                _currentIngredients[_currentPotionSize] = ingredientType;
+                _currentPotionSize++;
+                Debug.Log($"Added {ingredientType.ToString()}, potion now contains {_currentPotionSize} ingredients");
                 return true;
             }
             else
@@ -92,6 +102,16 @@ namespace Characters
             }
             
             return false;
+        }
+
+        private void ClearIngredientArray()
+        {
+            for (int i = 0; i < _currentIngredients.Length; i++)
+            {
+                _currentIngredients[i] = IngredientType.Empty;
+            }
+
+            _currentPotionSize = 0;
         }
     }
     
