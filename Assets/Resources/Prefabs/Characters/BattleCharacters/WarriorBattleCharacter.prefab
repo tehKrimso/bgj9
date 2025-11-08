@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: _initiative
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
+      propertyPath: _enemieAttackPosXOffset
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2242157175781055342, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_Name
       value: WarriorBattleCharacter

@@ -51,6 +51,10 @@ MonoBehaviour:
   _initiative: 0
   _isEnemy: 0
   _battleStrategie: 0
+  _emptyBottleDamage: 2
+  _meleeAttack: 1
+  _enemieAttackPosXOffset: 0
+  _movementSpeed: 15
 --- !u!61 &-5976440867970490747
 BoxCollider2D:
   m_ObjectHideFlags: 0

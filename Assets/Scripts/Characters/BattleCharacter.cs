@@ -1,12 +1,16 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using Infrastructure;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 using Random = System.Random;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Characters
 {
@@ -23,6 +27,14 @@ namespace Characters
         [SerializeField] private bool _isEnemy;
         [SerializeField] private BattleStrategie _battleStrategie;
         [SerializeField] private int _emptyBottleDamage = 2;
+        
+        [Header("Attack View Params")]
+        [SerializeField] private bool _meleeAttack;
+        [SerializeField] private float _enemieAttackPosXOffset;
+        [SerializeField] private float _movementSpeed;
+        
+        private Vector3 _initialPosition;
+        
 
         private BattleTurnsManager _battleTurnsManager;
         
@@ -42,6 +54,8 @@ namespace Characters
             
             _battleTurnsManager = battleTurnsManager;
             _random = new Random();
+            
+            _initialPosition = transform.position;
         }
         
         public BaseCharacterStats GetStats() => _characterStats;
@@ -51,7 +65,7 @@ namespace Characters
         {
             Debug.Log($"PlayTurn {gameObject.name}");
             List<BattleCharacter> oppositeTeam = _battleTurnsManager.GetOppositeTeamCharactersList(_isEnemy);
-            
+            var enemy = ChooseEnemyToAttack(oppositeTeam);
             //Debug
             // StringBuilder sb = new StringBuilder();
             // sb.Append($"OppositeTeam of count {oppositeTeam.Count} contains: -> ");
@@ -61,14 +75,23 @@ namespace Characters
             // }
             // Debug.Log(sb.ToString());
             //
-            
-            var enemy = ChooseEnemyToAttack(oppositeTeam);
-            enemy.TakeDamage(_characterStats.Damage + _characterActiveModifiers.Damage);
-            
-            Debug.Log($"Select {enemy.gameObject.name} to attack, enemy hp left: {enemy.GetStats().Health}");
-            Debug.Log("======");
+
+            if (_meleeAttack)
+            {
+                // MoveToAttackPos(enemy.GetAttackPosition());
+                // PerformAttack(enemy);
+                // MoveToInitialPos();
+                StartCoroutine(AttackSequence(enemy.GetAttackPosition(),enemy));
+            }
+            else
+            {
+                PerformAttack(enemy);
+                //waiting for projectile to hit? 
+            }
             
             ClearModifiers();
+            
+            Debug.Log("======");
         }
 
         public void TakeDamage(int damage)
@@ -122,8 +145,50 @@ namespace Characters
             
             Debug.Log($"After {gameObject.name} has {_characterStats.Damage}+{_characterActiveModifiers.Damage} damage, {_characterStats.Health} health, {_characterStats.Initiative}+{_characterActiveModifiers.Initiative} initiative");
         }
+        
+        public Vector3 GetAttackPosition() => transform.position + new Vector3(_enemieAttackPosXOffset, 0, 0);
 
-        public void ClearModifiers()
+        private void MoveToAttackPos(Vector3 targetPosition)
+        {
+            Coroutine moveToAttackPos;
+            moveToAttackPos = StartCoroutine(MoveTo(targetPosition));
+        }
+        
+        private IEnumerator PerformAttack(BattleCharacter target)
+        {
+            
+            yield return new WaitForSeconds(2f); //TODO temp waiting
+            
+            target.TakeDamage(_characterStats.Damage + _characterActiveModifiers.Damage);
+            
+            //animation
+            //vfx
+            
+            Debug.Log($"Select {target.gameObject.name} to attack, enemy hp left: {target.GetStats().Health}");
+        }
+        
+        private void MoveToInitialPos()
+        {
+            StartCoroutine(MoveTo(_initialPosition));
+        }
+
+        private IEnumerator MoveTo(Vector3 targetPosition)
+        {
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, _movementSpeed * Time.deltaTime);
+                yield return null;
+            }
+        }
+
+        private IEnumerator AttackSequence(Vector3 targetPosition, BattleCharacter target)
+        {
+            yield return StartCoroutine(MoveTo(targetPosition));
+            yield return StartCoroutine(PerformAttack(target));
+            yield return StartCoroutine(MoveTo(_initialPosition));
+        }
+
+        private void ClearModifiers()
         {
             _characterActiveModifiers.Damage = 0;
             _characterActiveModifiers.Health = 0;
