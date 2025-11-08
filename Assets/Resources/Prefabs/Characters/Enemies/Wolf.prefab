@@ -22,7 +22,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: _movementSpeed
-      value: 20
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
+      propertyPath: _timeBetweenTurns
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: _enemieAttackPosXOffset

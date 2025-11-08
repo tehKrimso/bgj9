@@ -19,7 +19,7 @@ namespace Characters
         [Header("Initial stats")]
         [SerializeField] private int _health;
         [SerializeField] private int _damage;
-        [SerializeField] private int _initiative;
+        [SerializeField] private float _timeBetweenTurns;
         
         
         
@@ -32,6 +32,9 @@ namespace Characters
         [SerializeField] private bool _meleeAttack;
         [SerializeField] private float _enemieAttackPosXOffset;
         [SerializeField] private float _movementSpeed;
+
+        public float CurrentTimeToTurn => _characterStats.TurnTime - _characterActiveModifiers.TurnTime;
+        public float TimePercent => _currentTimer / CurrentTimeToTurn;
         
         private Vector3 _initialPosition;
         
@@ -45,21 +48,44 @@ namespace Characters
         private BattleCharacter _focusedTarget;
         
         private Random _random;
+
+        private bool _isPaused;
+        private float _currentTimer;
         
         public void Init(BattleTurnsManager battleTurnsManager, BaseCharacterStats modifiersTable)
         {
-            _characterStats = new BaseCharacterStats(_health, _damage, _initiative);
+            _characterStats = new BaseCharacterStats(_health, _damage, _timeBetweenTurns);
             _characterActiveModifiers = new BaseCharacterStats(0, 0, 0);
             _modifiersTable = modifiersTable;
             
             _battleTurnsManager = battleTurnsManager;
+            _battleTurnsManager.TurnStart.AddListener(HandleTakeTurn);
+            _battleTurnsManager.TurnEnded.AddListener(HandleTurnContinue);
+            _battleTurnsManager.FightEnded.AddListener(HandleFightEnded);
+            
+            
             _random = new Random();
             
             _initialPosition = transform.position;
         }
-        
+
+        private void Update()
+        {
+            if(_isPaused)
+                return;
+            
+            _currentTimer += Time.deltaTime;
+            if (_currentTimer >= CurrentTimeToTurn) //Check if current time more than initial turn time minus modifiers
+            {
+                _currentTimer = 0;
+                _battleTurnsManager.TurnStarted(this);
+            }
+        }
+
         public BaseCharacterStats GetStats() => _characterStats;
         public bool IsEnemy() => _isEnemy;
+
+        public Vector3 GetAttackPosition() => transform.position + new Vector3(_enemieAttackPosXOffset, 0, 0);
 
         public void PlayTurn()
         {
@@ -78,9 +104,6 @@ namespace Characters
 
             if (_meleeAttack)
             {
-                // MoveToAttackPos(enemy.GetAttackPosition());
-                // PerformAttack(enemy);
-                // MoveToInitialPos();
                 StartCoroutine(AttackSequence(enemy.GetAttackPosition(),enemy));
             }
             else
@@ -111,7 +134,7 @@ namespace Characters
 
         public void AddModifiers(IngredientType[] modifiers)
         {
-            Debug.Log($"Before {gameObject.name} has {_characterStats.Damage}+{_characterActiveModifiers.Damage} damage, {_characterStats.Health} health, {_characterStats.Initiative}+{_characterActiveModifiers.Initiative} initiative");
+            Debug.Log($"Before {gameObject.name} has {_characterStats.Damage}+{_characterActiveModifiers.Damage} damage, {_characterStats.Health} health, {_characterStats.TurnTime}+{_characterActiveModifiers.TurnTime} initiative");
 
             int modifiersCount = modifiers.Length;
             int emptySlots = 0;
@@ -129,7 +152,7 @@ namespace Characters
                         _characterActiveModifiers.Damage += _modifiersTable.Damage;
                         break;
                     case IngredientType.Speed:
-                        _characterActiveModifiers.Initiative += _modifiersTable.Initiative;
+                        _characterActiveModifiers.TurnTime += _modifiersTable.TurnTime;
                         break;
                     case IngredientType.Empty:
                     default:
@@ -143,21 +166,38 @@ namespace Characters
                 TakeDamage(_emptyBottleDamage);
             }
             
-            Debug.Log($"After {gameObject.name} has {_characterStats.Damage}+{_characterActiveModifiers.Damage} damage, {_characterStats.Health} health, {_characterStats.Initiative}+{_characterActiveModifiers.Initiative} initiative");
+            Debug.Log($"After {gameObject.name} has {_characterStats.Damage}+{_characterActiveModifiers.Damage} damage, {_characterStats.Health} health, {_characterStats.TurnTime}+{_characterActiveModifiers.TurnTime} initiative");
         }
-        
-        public Vector3 GetAttackPosition() => transform.position + new Vector3(_enemieAttackPosXOffset, 0, 0);
 
-        private void MoveToAttackPos(Vector3 targetPosition)
+        private void HandleTakeTurn(BattleCharacter character)
         {
-            Coroutine moveToAttackPos;
-            moveToAttackPos = StartCoroutine(MoveTo(targetPosition));
+            _isPaused = true;
+            
+            if (character != this)
+            {
+                return;
+            }
+            
+            PlayTurn();
+            
+            
+        }
+
+        private void HandleTurnContinue()
+        {
+            _isPaused = false;
+        }
+
+        private void HandleFightEnded()
+        {
+            _isPaused = true;
+            //TODO endgame anim?
         }
         
         private IEnumerator PerformAttack(BattleCharacter target)
         {
             
-            yield return new WaitForSeconds(2f); //TODO temp waiting
+            yield return new WaitForSeconds(1f); //TODO temp waiting
             
             target.TakeDamage(_characterStats.Damage + _characterActiveModifiers.Damage);
             
@@ -165,11 +205,6 @@ namespace Characters
             //vfx
             
             Debug.Log($"Select {target.gameObject.name} to attack, enemy hp left: {target.GetStats().Health}");
-        }
-        
-        private void MoveToInitialPos()
-        {
-            StartCoroutine(MoveTo(_initialPosition));
         }
 
         private IEnumerator MoveTo(Vector3 targetPosition)
@@ -186,13 +221,15 @@ namespace Characters
             yield return StartCoroutine(MoveTo(targetPosition));
             yield return StartCoroutine(PerformAttack(target));
             yield return StartCoroutine(MoveTo(_initialPosition));
+            _battleTurnsManager.TurnEndedInvoke();
+            
         }
 
         private void ClearModifiers()
         {
             _characterActiveModifiers.Damage = 0;
             _characterActiveModifiers.Health = 0;
-            _characterActiveModifiers.Initiative = 0;
+            _characterActiveModifiers.TurnTime = 0;
             
             Debug.Log("Modificators cleared");
         }
@@ -219,6 +256,13 @@ namespace Characters
                     //var random = new Random();
                     return oppositeTeam[_random.Next(0, oppositeTeam.Count)];
             }
+        }
+
+        private void OnDestroy()
+        {
+            _battleTurnsManager.TurnStart.RemoveListener(HandleTakeTurn);
+            _battleTurnsManager.TurnEnded.RemoveListener(HandleTurnContinue);
+            _battleTurnsManager.FightEnded.RemoveListener(HandleFightEnded);
         }
     }
 

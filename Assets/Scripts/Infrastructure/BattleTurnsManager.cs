@@ -1,12 +1,18 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Characters;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Infrastructure
 {
     public class BattleTurnsManager
     {
+        public UnityEvent<BattleCharacter> TurnStart;
+        public UnityEvent TurnEnded;
+        public UnityEvent FightEnded;
+        
         private List<BattleCharacter> _characters;
 
         private int _roundCount = 1;
@@ -18,7 +24,25 @@ namespace Infrastructure
         public BattleTurnsManager()
         {
             _characters = new List<BattleCharacter>();
+            TurnStart = new UnityEvent<BattleCharacter>();
+            TurnEnded = new UnityEvent();
+            FightEnded = new UnityEvent();
             _isPlaying = true;
+        }
+
+        public void TurnStarted(BattleCharacter character)
+        {
+            TurnStart?.Invoke(character);
+        }
+
+        public void TurnEndedInvoke()
+        {
+            if (CheckWinLose())
+            {
+                FightEnded?.Invoke();
+                return;
+            }
+            TurnEnded?.Invoke();
         }
         
         public void AddCharacter(BattleCharacter character) => _characters.Add(character);
@@ -30,7 +54,7 @@ namespace Infrastructure
             CheckWinLose();
         }
 
-        public void InitializeTurnOrder() => _characters = _characters.OrderByDescending(x => x.GetStats().Initiative).ToList();
+        public void InitializeTurnOrder() => _characters = _characters.OrderByDescending(x => x.GetStats().TurnTime).ToList();
 
         public List<BattleCharacter> GetOppositeTeamCharactersList(bool isEnemyAsking)
         {

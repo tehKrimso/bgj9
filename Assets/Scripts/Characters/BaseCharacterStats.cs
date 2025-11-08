@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.Serialization;
 
 namespace Characters
 {
@@ -7,15 +8,17 @@ namespace Characters
     {
         public int Health;
         public int Damage;
-        public int Initiative;
+        public float TurnTime;
+        
+        public float HealthPercent => (float)Health / _maxHealth;
 
         private int _maxHealth;
 
-        public BaseCharacterStats(int health, int damage, int initiative)
+        public BaseCharacterStats(int health, int damage, float turnTime)
         {
             Health = health;
             Damage = damage;
-            Initiative = initiative;
+            TurnTime = turnTime;
             _maxHealth = health;
         }
 
