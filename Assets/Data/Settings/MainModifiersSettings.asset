@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthModifier: 2
   DamageModifier: 2
-  SpeedModifier: 0.35
+  SpeedModifier: 0.5
