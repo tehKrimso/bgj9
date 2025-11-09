@@ -455,7 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxPotionSize: 3
-  _throwCoolDown: 2
+  _throwCoolDown: 3
 --- !u!61 &2716356868163774584
 BoxCollider2D:
   m_ObjectHideFlags: 0
