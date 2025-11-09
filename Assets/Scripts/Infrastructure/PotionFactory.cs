@@ -32,10 +32,10 @@ namespace Infrastructure
                 switch (ingredient)
                 {
                     case IngredientType.Damage:
-                        redCount++;
+                        greenCount++;
                         break;
                     case IngredientType.Health:
-                        greenCount++;
+                        redCount++;
                         break;
                     case IngredientType.Speed:
                         blueCount++;

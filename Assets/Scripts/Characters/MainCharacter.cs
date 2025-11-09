@@ -106,6 +106,11 @@ namespace Characters
                 }
             }
         }
+
+        public bool TryAddIngredientFromUiButtons(IngredientType type)
+        {
+            return TryAddIngredient(type);
+        }
         
         private bool TryAddIngredient(IngredientType ingredientType)
         {

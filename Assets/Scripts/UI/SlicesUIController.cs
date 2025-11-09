@@ -14,10 +14,10 @@ namespace UI
             switch (ingredient)
             {
                 case IngredientType.Damage:
-                    sliceColor = Color.red;
+                    sliceColor = Color.green;
                     break;
                 case IngredientType.Health:
-                    sliceColor = Color.green;
+                    sliceColor = Color.red;
                     break;
                 case IngredientType.Speed:
                     sliceColor = Color.blue;

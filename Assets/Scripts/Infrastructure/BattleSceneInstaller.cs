@@ -31,6 +31,7 @@ namespace Infrastructure
         [Space]
         [Header("OtherLinks")]
         [SerializeField] private SlicesUIController _slicesUIController;
+        [SerializeField] private IngredientsButtonsControls _ingredientsButtonsControls;
         
         private ICharacterFactory _characterFactory;
         private IInputService _input;
@@ -49,6 +50,11 @@ namespace Infrastructure
                 _slicesUIController = FindObjectOfType<SlicesUIController>();
             }
             
+            if (_ingredientsButtonsControls == null)
+            {
+                _ingredientsButtonsControls = FindObjectOfType<IngredientsButtonsControls>();
+            }
+            
             _modifiersTable = new BaseCharacterStats(_healthModifier, _damageModifier, _speedModifier);
 
             _input = new StandaloneInputService();
@@ -63,7 +69,9 @@ namespace Infrastructure
             
             SpawnBattleCharacters();
             SpawnEnemyCharacters();
-            SpawnMainCharacter(_mainCharacterPrefab, _mainCharacterPos);
+            var mainCharacter = SpawnMainCharacter(_mainCharacterPrefab, _mainCharacterPos);
+            
+            _ingredientsButtonsControls.Initialize(_availableIngredientsInBattle, mainCharacter);
             
             _battleTurnsManager.InitializeTurnOrder();
         }
@@ -94,11 +102,15 @@ namespace Infrastructure
             _battleTurnsManager.AddCharacter(battleCharacter);
         }
 
-        private void SpawnMainCharacter(GameObject prefab, Transform parent)
+        private MainCharacter SpawnMainCharacter(GameObject prefab, Transform parent)
         {
             var mainCharacterGameObject = _characterFactory.CreateMainCharacter(prefab, parent);
             MainCharacter mainCharacter = mainCharacterGameObject.GetComponent<MainCharacter>();
             mainCharacter.Initialize(_input, _potionFactory, _slicesUIController, _availableIngredientsInBattle);
+            
+            Container.Bind<MainCharacter>().FromInstance(mainCharacter).AsSingle().NonLazy();
+            
+            return mainCharacter;
         }
         
         
