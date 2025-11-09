@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ecca80de0c8754fa7685222c5772b6, type: 3}
   m_Name: SceneOrderSettings
   m_EditorClassIdentifier: 
-  InitialSceneIndex: 1
+  InitialSceneIndex: 0
   SceneNames:
   - Level_1
   - Level_2
