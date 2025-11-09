@@ -707,7 +707,7 @@ MonoBehaviour:
   _battleCharactersPrefabs:
   - {fileID: 8332462728257720906, guid: 2450088860ba7c246be08eef21412005, type: 3}
   _enemiesPrefabs:
-  - {fileID: 877381902975803504, guid: 94e4c7caf7f6b714aafecc4b831305dc, type: 3}
+  - {fileID: 877381902975803504, guid: 24b010a182af6b84f911ef0052354d6d, type: 3}
   _mainCharacterPrefab: {fileID: 2242157175781055342, guid: 03d0c8a1bb371c54c96cca2c1ffc54a7, type: 3}
   _potionPrefab: {fileID: 1376251313915770988, guid: c6866b4f625141c4c80a2bf403a69832, type: 3}
   _healthModifier: 2

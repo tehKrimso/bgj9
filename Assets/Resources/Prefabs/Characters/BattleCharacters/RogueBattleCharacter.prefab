@@ -30,12 +30,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2242157175781055342, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_Name
-      value: WarriorBattleCharacter
+      value: RogueBattleCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 2256735728187823911, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 1798249866, guid: 3f04493ea9defc64c8cfe4443a7f831c, type: 3}
+      objectReference: {fileID: -742065146, guid: 3529f6d69e0ce4c4cbc87cbead97f697, type: 3}
     - target: {fileID: 2256735728187823911, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -111,7 +111,7 @@ Animator:
   m_GameObject: {fileID: 5601889741523252589}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3fc5a18e839c59448b1017c204f8735e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1af346f004c5b764b88910eeb8f96fff, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
