@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Characters;
 using InputService;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -26,6 +27,10 @@ namespace Infrastructure
         [SerializeField] private int _damageModifier;
         [SerializeField] private int _speedModifier;
         
+        [Space]
+        [Header("OtherLinks")]
+        [SerializeField] private SlicesUIController _slicesUIController;
+        
         private ICharacterFactory _characterFactory;
         private IInputService _input;
         private BattleTurnsManager _battleTurnsManager;
@@ -37,6 +42,12 @@ namespace Infrastructure
         public override void InstallBindings()
         {
             Debug.Log("BattleSceneInstaller: InstallBindings start");
+
+            if (_slicesUIController == null)
+            {
+                _slicesUIController = FindObjectOfType<SlicesUIController>();
+            }
+            
             _modifiersTable = new BaseCharacterStats(_healthModifier, _damageModifier, _speedModifier);
 
             _input = new StandaloneInputService();
@@ -86,7 +97,7 @@ namespace Infrastructure
         {
             var mainCharacterGameObject = _characterFactory.CreateMainCharacter(prefab, parent);
             MainCharacter mainCharacter = mainCharacterGameObject.GetComponent<MainCharacter>();
-            mainCharacter.Initialize(_input, _potionFactory);
+            mainCharacter.Initialize(_input, _potionFactory, _slicesUIController);
         }
         
         

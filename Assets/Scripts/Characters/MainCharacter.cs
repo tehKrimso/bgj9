@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Infrastructure;
 using InputService;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -24,12 +25,16 @@ namespace Characters
         private IngredientType[] _currentIngredients;
         
         private PotionFactory _potionFactory;
+        
+        private SlicesUIController _slicesUIController;
 
-        public void Initialize(IInputService input, PotionFactory potionFactory)
+        public void Initialize(IInputService input, PotionFactory potionFactory, SlicesUIController slicesUIController)
         {
             _input = input;
             _currentIngredients = new IngredientType[_maxPotionSize];
             _potionFactory = potionFactory;
+            
+            _slicesUIController = slicesUIController;
             ClearIngredientArray();
             
             //init avaliable ingredients here?
@@ -76,6 +81,9 @@ namespace Characters
                     Potion potion = _potionFactory.InstantiatePotion(_currentIngredients, character);
                     
                     ClearIngredientArray();
+                    
+                    _slicesUIController.DisableSlices();
+                    
                     potion.LaunchPotion();
                 }
                 else
@@ -92,7 +100,10 @@ namespace Characters
             if (_currentPotionSize < _maxPotionSize)
             {
                 _currentIngredients[_currentPotionSize] = ingredientType;
+                _slicesUIController.SetActiveSlice(_currentPotionSize, ingredientType);
+                
                 _currentPotionSize++;
+                
                 Debug.Log($"Added {ingredientType.ToString()}, potion now contains {_currentPotionSize} ingredients");
                 return true;
             }
