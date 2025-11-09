@@ -2695,7 +2695,7 @@ MonoBehaviour:
   _speedModifier: 2
   _availableIngredientsInBattle:
     IsHealAvaliable: 1
-    IsDamageAvaliable: 1
+    IsDamageAvaliable: 0
     IsSpeedAvaliable: 1
   _slicesUIController: {fileID: 2087168350}
 --- !u!114 &2021724616

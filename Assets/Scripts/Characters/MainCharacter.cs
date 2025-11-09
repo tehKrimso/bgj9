@@ -38,6 +38,8 @@ namespace Characters
             _potionFactory = potionFactory;
             _availableIngredientsInBattle = availableIngredientsInBattle;
             
+            gameObject.GetComponent<PotViewController>().Initialize(_availableIngredientsInBattle);
+            
             _slicesUIController = slicesUIController;
             ClearIngredientArray();
             
