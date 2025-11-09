@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1371621989496331824, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1371621989496331824, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1371621989496331824, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1371621989496331824, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -26,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: _damage
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: _health
-      value: 16
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: _isEnemy
@@ -42,11 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: _movementSpeed
-      value: 40
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: _timeBetweenTurns
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1468357891296617414, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: _enemieAttackPosXOffset
@@ -77,6 +77,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4844981150043357099, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 134.033
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844981150043357099, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.01
       objectReference: {fileID: 0}
@@ -90,7 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844981150043357099, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.214
+      value: -0.2268
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844981150043357099, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4928610565790774290, guid: 77b143d22c9dd1947aa6e7622a717f5a, type: 3}
       propertyPath: m_Controller
