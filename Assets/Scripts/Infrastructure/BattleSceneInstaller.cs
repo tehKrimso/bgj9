@@ -26,6 +26,7 @@ namespace Infrastructure
         [SerializeField] private int _healthModifier;
         [SerializeField] private int _damageModifier;
         [SerializeField] private int _speedModifier;
+        [SerializeField] private AvailableIngredients _availableIngredientsInBattle;
         
         [Space]
         [Header("OtherLinks")]
@@ -97,7 +98,7 @@ namespace Infrastructure
         {
             var mainCharacterGameObject = _characterFactory.CreateMainCharacter(prefab, parent);
             MainCharacter mainCharacter = mainCharacterGameObject.GetComponent<MainCharacter>();
-            mainCharacter.Initialize(_input, _potionFactory, _slicesUIController);
+            mainCharacter.Initialize(_input, _potionFactory, _slicesUIController, _availableIngredientsInBattle);
         }
         
         

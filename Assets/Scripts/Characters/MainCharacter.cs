@@ -28,11 +28,14 @@ namespace Characters
         
         private SlicesUIController _slicesUIController;
 
-        public void Initialize(IInputService input, PotionFactory potionFactory, SlicesUIController slicesUIController)
+        private AvailableIngredients _availableIngredientsInBattle;
+
+        public void Initialize(IInputService input, PotionFactory potionFactory, SlicesUIController slicesUIController, AvailableIngredients availableIngredientsInBattle)
         {
             _input = input;
             _currentIngredients = new IngredientType[_maxPotionSize];
             _potionFactory = potionFactory;
+            _availableIngredientsInBattle = availableIngredientsInBattle;
             
             _slicesUIController = slicesUIController;
             ClearIngredientArray();
@@ -43,19 +46,19 @@ namespace Characters
 
         private void Update()
         {
-            if (_input.FirstIngredientButton())
+            if (_availableIngredientsInBattle.IsHealAvaliable && _input.FirstIngredientButton())
             {
                 TryAddIngredient(IngredientType.Health);
                 return;
             }
             
-            if (_input.SecondIngredientButton())
+            if (_availableIngredientsInBattle.IsDamageAvaliable && _input.SecondIngredientButton())
             {
                 TryAddIngredient(IngredientType.Damage);
                 return;
             }
             
-            if (_input.ThirdIngredientButton())
+            if (_availableIngredientsInBattle.IsSpeedAvaliable && _input.ThirdIngredientButton())
             {
                 TryAddIngredient(IngredientType.Speed);
                 return;

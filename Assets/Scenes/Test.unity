@@ -2693,6 +2693,10 @@ MonoBehaviour:
   _healthModifier: 2
   _damageModifier: 5
   _speedModifier: 2
+  _availableIngredientsInBattle:
+    IsHealAvaliable: 1
+    IsDamageAvaliable: 1
+    IsSpeedAvaliable: 1
   _slicesUIController: {fileID: 2087168350}
 --- !u!114 &2021724616
 MonoBehaviour:
