@@ -45,6 +45,8 @@ namespace Characters
         private BaseCharacterStats _characterActiveModifiers;
         private BaseCharacterStats _modifiersTable;
 
+        private BattleCharacterAnimatorControls _animatorControls;
+
         private BattleCharacter _focusedTarget;
         
         private Random _random;
@@ -62,6 +64,8 @@ namespace Characters
             _battleTurnsManager.TurnStart.AddListener(HandleTakeTurn);
             _battleTurnsManager.TurnEnded.AddListener(HandleTurnContinue);
             _battleTurnsManager.FightEnded.AddListener(HandleFightEnded);
+            
+            _animatorControls = GetComponent<BattleCharacterAnimatorControls>();
             
             
             _random = new Random();
@@ -124,10 +128,10 @@ namespace Characters
             if (_characterStats.Health <= 0)
             {
                 Debug.Log($"{gameObject.name} is dead!");
-                _battleTurnsManager.RemoveCharacter(this);
+                
                 
                 //
-                Destroy(gameObject);
+                StartCoroutine(HandleDeath());
                 //
             }
         }
@@ -197,7 +201,8 @@ namespace Characters
         private IEnumerator PerformAttack(BattleCharacter target)
         {
             
-            yield return new WaitForSeconds(1f); //TODO temp waiting
+            //yield return new WaitForSeconds(1f); //TODO temp waiting
+            yield return new WaitForSeconds(_animatorControls.AttackWaitingTime); //TODO temp waiting
             
             target.TakeDamage(_characterStats.Damage + _characterActiveModifiers.Damage);
             
@@ -219,10 +224,28 @@ namespace Characters
         private IEnumerator AttackSequence(Vector3 targetPosition, BattleCharacter target)
         {
             yield return StartCoroutine(MoveTo(targetPosition));
+            
+            _animatorControls.SetAttackParam(true);
             yield return StartCoroutine(PerformAttack(target));
+            _animatorControls.SetAttackParam(false);
+            
             yield return StartCoroutine(MoveTo(_initialPosition));
             _battleTurnsManager.TurnEndedInvoke();
             
+        }
+
+        private IEnumerator HandleDeath()
+        {
+            _animatorControls.SetIsDeadParam();
+
+            yield return new WaitForSeconds(_animatorControls.DeathAnimTime);
+            
+            RemoveListeners();
+            _isPaused = true;
+            
+            _battleTurnsManager.RemoveCharacter(this);
+            
+            //Destroy(gameObject);
         }
 
         private void ClearModifiers()
@@ -258,11 +281,16 @@ namespace Characters
             }
         }
 
-        private void OnDestroy()
+        private void RemoveListeners()
         {
             _battleTurnsManager.TurnStart.RemoveListener(HandleTakeTurn);
             _battleTurnsManager.TurnEnded.RemoveListener(HandleTurnContinue);
             _battleTurnsManager.FightEnded.RemoveListener(HandleFightEnded);
+        }
+
+        private void OnDestroy()
+        {
+            RemoveListeners();
         }
     }
 

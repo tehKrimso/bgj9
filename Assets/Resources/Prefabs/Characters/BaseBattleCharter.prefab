@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: -5976440867970490747}
   - component: {fileID: -1955515129758161706}
   - component: {fileID: 3821622922879174022}
+  - component: {fileID: 6982802473108164453}
   m_Layer: 0
   m_Name: BaseBattleCharter
   m_TagString: Untagged
@@ -279,6 +280,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthFillImage: {fileID: 2650472528934261289}
+--- !u!114 &6982802473108164453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242157175781055342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3eaa2728ec71c41874452b5c3297ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 4928610565790774290}
+  DeathAnimTime: 1.5
 --- !u!1 &2378619324800433225
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1371621989496331824}
   - component: {fileID: 2256735728187823911}
+  - component: {fileID: 4928610565790774290}
   m_Layer: 0
   m_Name: View
   m_TagString: Untagged
@@ -364,6 +380,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &4928610565790774290
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2378619324800433225}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2537295518740056130
 GameObject:
   m_ObjectHideFlags: 0
