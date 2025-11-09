@@ -5,6 +5,7 @@ namespace Infrastructure
 {
     public class LoadingCurtain : MonoBehaviour
     {
+        public float FadeSpeed = 0.05f;
         public CanvasGroup Curtain;
 
         public void Show()
@@ -22,8 +23,8 @@ namespace Infrastructure
         {
             while (Curtain.alpha > 0)
             {
-                Curtain.alpha -= 0.03f;
-                yield return new WaitForSeconds(0.03f);
+                Curtain.alpha -= FadeSpeed;
+                yield return new WaitForSeconds(FadeSpeed);
             }
 
             gameObject.SetActive(false);
