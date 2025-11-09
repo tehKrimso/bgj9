@@ -139,6 +139,10 @@ namespace Characters
                 
                 
                 //
+                RemoveListeners();
+                _isPaused = true;
+            
+                _battleTurnsManager.RemoveCharacter(this);
                 StartCoroutine(HandleDeath());
                 //
             }
@@ -247,11 +251,6 @@ namespace Characters
             _animatorControls.SetIsDeadParam();
 
             yield return new WaitForSeconds(_animatorControls.DeathAnimTime);
-            
-            RemoveListeners();
-            _isPaused = true;
-            
-            _battleTurnsManager.RemoveCharacter(this);
             
             //Destroy(gameObject);
         }
