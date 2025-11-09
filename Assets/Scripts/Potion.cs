@@ -9,8 +9,10 @@ public class Potion : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private float _flightTime;
+    [SerializeField] private float _lifeTime = 3f;
 
     private float _gravity;
+    private float _lifeTimeTimer;
     
     private IngredientType[] _potionContent;
     private BattleCharacter _target;
@@ -40,6 +42,15 @@ public class Potion : MonoBehaviour
         Vector2 velocity = new Vector2(Vx, Vy);
         
         _rb.velocity = velocity;
+    }
+
+    private void Update()
+    {
+        _lifeTimeTimer += Time.deltaTime;
+        if (_lifeTimeTimer >= _lifeTime)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
