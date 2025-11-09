@@ -18,17 +18,18 @@ namespace Characters
     public class MainCharacter : MonoBehaviour
     {
         [SerializeField] private int _maxPotionSize;
-        private int _currentPotionSize;
+        [SerializeField] private float _throwCoolDown;
+        public float TimePercent => _throwTimer / _throwCoolDown;
+
 
         private IInputService _input;
-        
         private IngredientType[] _currentIngredients;
-        
         private PotionFactory _potionFactory;
-        
         private SlicesUIController _slicesUIController;
-
         private AvailableIngredients _availableIngredientsInBattle;
+
+        private int _currentPotionSize;
+        private float _throwTimer;
 
         public void Initialize(IInputService input, PotionFactory potionFactory, SlicesUIController slicesUIController, AvailableIngredients availableIngredientsInBattle)
         {
@@ -46,6 +47,8 @@ namespace Characters
 
         private void Update()
         {
+            _throwTimer += Time.deltaTime;
+            
             if (_availableIngredientsInBattle.IsHealAvaliable && _input.FirstIngredientButton())
             {
                 TryAddIngredient(IngredientType.Health);
@@ -66,7 +69,11 @@ namespace Characters
             
             if (_input.ThrowPotionButton())
             {
-                PotionThrow();
+
+                if (_throwTimer >= _throwCoolDown)
+                {
+                    PotionThrow();
+                }
             }
         }
 
@@ -88,6 +95,8 @@ namespace Characters
                     _slicesUIController.DisableSlices();
                     
                     potion.LaunchPotion();
+                    
+                    _throwTimer = 0;
                 }
                 else
                 {
