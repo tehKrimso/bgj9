@@ -59,7 +59,7 @@ namespace Infrastructure
 
             _input = new StandaloneInputService();
             _characterFactory = new CharactersFactory();
-            _battleTurnsManager = new BattleTurnsManager();
+            _battleTurnsManager = new BattleTurnsManager(Container.Resolve<SceneLoader>());
             _potionFactory = new PotionFactory(_potionPrefab, _mainCharacterPos);
             
             Container.Bind<ICharacterFactory>().FromInstance(_characterFactory).AsSingle().NonLazy();

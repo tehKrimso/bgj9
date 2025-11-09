@@ -95,6 +95,14 @@ namespace Characters
         {
             Debug.Log($"PlayTurn {gameObject.name}");
             List<BattleCharacter> oppositeTeam = _battleTurnsManager.GetOppositeTeamCharactersList(_isEnemy);
+
+            if (oppositeTeam.Count == 0)
+            {
+                _isPaused = true;
+                _battleTurnsManager.TurnEndedInvoke();
+                return;
+            }
+            
             var enemy = ChooseEnemyToAttack(oppositeTeam);
             //Debug
             // StringBuilder sb = new StringBuilder();

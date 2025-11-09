@@ -4,11 +4,15 @@ using System.Linq;
 using Characters;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 namespace Infrastructure
 {
     public class BattleTurnsManager
     {
+        private SceneLoader _sceneLoader;
+        
+        
         public UnityEvent<BattleCharacter> TurnStart;
         public UnityEvent TurnEnded;
         public UnityEvent FightEnded;
@@ -20,14 +24,19 @@ namespace Infrastructure
         private int _currentCharacterTurnIndex;
 
         private bool _isPlaying;
+        private bool _isPlayerWin;
 
-        public BattleTurnsManager()
+        public BattleTurnsManager(SceneLoader sceneLoader)
         {
+            _sceneLoader = sceneLoader;
+            
             _characters = new List<BattleCharacter>();
             TurnStart = new UnityEvent<BattleCharacter>();
             TurnEnded = new UnityEvent();
             FightEnded = new UnityEvent();
             _isPlaying = true;
+
+            
         }
 
         public void TurnStarted(BattleCharacter character)
@@ -40,6 +49,18 @@ namespace Infrastructure
             if (CheckWinLose())
             {
                 FightEnded?.Invoke();
+
+                if (_isPlayerWin)
+                {
+                    //load next scene
+                    _sceneLoader.LoadNextScene();
+                }
+                else
+                {
+                    //reload current scene
+                    _sceneLoader.ReloadCurrentScene();
+                }
+                
                 return;
             }
             TurnEnded?.Invoke();
@@ -92,6 +113,7 @@ namespace Infrastructure
             if (_characters.Where(x => x.IsEnemy()).ToList().Count == 0)
             {
                 _isPlaying = false;
+                _isPlayerWin = true;
                 Debug.Log($"At round {_roundCount} characters win");
                 return true;
             }
@@ -99,6 +121,7 @@ namespace Infrastructure
             if (_characters.Where(x => !x.IsEnemy()).ToList().Count == 0)
             {
                 _isPlaying = false;
+                _isPlayerWin = false;
                 Debug.Log($"At round {_roundCount} characters lose");
                 return true;
             }
