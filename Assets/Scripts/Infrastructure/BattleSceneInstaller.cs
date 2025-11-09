@@ -25,7 +25,7 @@ namespace Infrastructure
         [Header("Modifiers Table")] 
         [SerializeField] private int _healthModifier;
         [SerializeField] private int _damageModifier;
-        [SerializeField] private int _speedModifier;
+        [SerializeField] private float _speedModifier;
         [SerializeField] private AvailableIngredients _availableIngredientsInBattle;
         
         [Space]
