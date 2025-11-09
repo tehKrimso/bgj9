@@ -3336,9 +3336,7 @@ MonoBehaviour:
   - {fileID: 877381902975803504, guid: 24b010a182af6b84f911ef0052354d6d, type: 3}
   _mainCharacterPrefab: {fileID: 2242157175781055342, guid: 03d0c8a1bb371c54c96cca2c1ffc54a7, type: 3}
   _potionPrefab: {fileID: 1376251313915770988, guid: c6866b4f625141c4c80a2bf403a69832, type: 3}
-  _healthModifier: 2
-  _damageModifier: 5
-  _speedModifier: 0.5
+  _modifiers: {fileID: 11400000, guid: 5d107a3a487aefd44a4a3ac3497e89fc, type: 2}
   _availableIngredientsInBattle:
     IsHealAvaliable: 1
     IsDamageAvaliable: 0
