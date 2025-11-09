@@ -26,6 +26,7 @@ namespace Infrastructure
         [Header("Modifiers Table")] 
         [SerializeField] private ModifiersSettings _modifiers;
         [SerializeField] private AvailableIngredients _availableIngredientsInBattle;
+        [SerializeField] private float _throwCoolDown = 3f;
         
         [Space]
         [Header("OtherLinks")]
@@ -105,7 +106,7 @@ namespace Infrastructure
         {
             var mainCharacterGameObject = _characterFactory.CreateMainCharacter(prefab, parent);
             MainCharacter mainCharacter = mainCharacterGameObject.GetComponent<MainCharacter>();
-            mainCharacter.Initialize(_input, _potionFactory, _slicesUIController, _availableIngredientsInBattle);
+            mainCharacter.Initialize(_input, _potionFactory, _slicesUIController, _availableIngredientsInBattle, _throwCoolDown);
             
             Container.Bind<MainCharacter>().FromInstance(mainCharacter).AsSingle().NonLazy();
             

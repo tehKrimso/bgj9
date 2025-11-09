@@ -18,7 +18,7 @@ namespace Characters
     public class MainCharacter : MonoBehaviour
     {
         [SerializeField] private int _maxPotionSize;
-        [SerializeField] private float _throwCoolDown;
+        private float _throwCoolDown;
         public float TimePercent => _throwTimer / _throwCoolDown;
 
 
@@ -31,7 +31,7 @@ namespace Characters
         private int _currentPotionSize;
         private float _throwTimer;
 
-        public void Initialize(IInputService input, PotionFactory potionFactory, SlicesUIController slicesUIController, AvailableIngredients availableIngredientsInBattle)
+        public void Initialize(IInputService input, PotionFactory potionFactory, SlicesUIController slicesUIController, AvailableIngredients availableIngredientsInBattle, float throwCoolDown)
         {
             _input = input;
             _currentIngredients = new IngredientType[_maxPotionSize];
@@ -42,6 +42,8 @@ namespace Characters
             
             _slicesUIController = slicesUIController;
             ClearIngredientArray();
+            
+            _throwCoolDown = throwCoolDown;
             
             //init avaliable ingredients here?
             
