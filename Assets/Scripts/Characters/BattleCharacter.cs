@@ -124,7 +124,7 @@ namespace Characters
                 //waiting for projectile to hit? 
             }
             
-            ClearModifiers();
+            
             
             Debug.Log("======");
         }
@@ -217,7 +217,7 @@ namespace Characters
             yield return new WaitForSeconds(_animatorControls.AttackWaitingTime); //TODO temp waiting
             
             target.TakeDamage(_characterStats.Damage + _characterActiveModifiers.Damage);
-            
+            ClearModifiers();
             //animation
             //vfx
             

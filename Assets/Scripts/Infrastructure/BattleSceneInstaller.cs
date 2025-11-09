@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Characters;
+using Characters.Scriptable;
 using InputService;
 using UI;
 using UnityEngine;
@@ -23,9 +24,7 @@ namespace Infrastructure
         
 
         [Header("Modifiers Table")] 
-        [SerializeField] private int _healthModifier;
-        [SerializeField] private int _damageModifier;
-        [SerializeField] private float _speedModifier;
+        [SerializeField] private ModifiersSettings _modifiers;
         [SerializeField] private AvailableIngredients _availableIngredientsInBattle;
         
         [Space]
@@ -55,7 +54,7 @@ namespace Infrastructure
                 _ingredientsButtonsControls = FindObjectOfType<IngredientsButtonsControls>();
             }
             
-            _modifiersTable = new BaseCharacterStats(_healthModifier, _damageModifier, _speedModifier);
+            _modifiersTable = new BaseCharacterStats(_modifiers.HealthModifier, _modifiers.DamageModifier, _modifiers.SpeedModifier);
 
             _input = new StandaloneInputService();
             _characterFactory = new CharactersFactory();

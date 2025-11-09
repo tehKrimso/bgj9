@@ -10,7 +10,7 @@ namespace Characters
         public int Damage;
         public float TurnTime;
         
-        public float HealthPercent => (float)Health / _maxHealth;
+        public float HealthPercent => (float)Health / (float)_maxHealth;
 
         private int _maxHealth;
 

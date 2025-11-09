@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58ecca80de0c8754fa7685222c5772b6, type: 3}
-  m_Name: SceneOrderSettings
+  m_Script: {fileID: 11500000, guid: 1726fd107a045a9428aeeb25ac007b3c, type: 3}
+  m_Name: MainModifiersSettings
   m_EditorClassIdentifier: 
-  InitialSceneIndex: 1
-  SceneNames:
-  - Level_1
-  - Level_2
+  HealthModifier: 2
+  DamageModifier: 2
+  SpeedModifier: 0.25
