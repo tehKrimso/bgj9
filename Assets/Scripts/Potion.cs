@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Characters;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Potion : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Potion : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private float _flightTime;
     [SerializeField] private float _lifeTime = 3f;
+    [SerializeField] private float rotationSpeed = 3f;
+    [FormerlySerializedAs("rotationoGameObject")] [SerializeField] private GameObject rotationGameObject;
 
     private float _gravity;
     private float _lifeTimeTimer;
@@ -46,6 +49,8 @@ public class Potion : MonoBehaviour
 
     private void Update()
     {
+        rotationGameObject.transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime, Space.Self);
+        
         _lifeTimeTimer += Time.deltaTime;
         if (_lifeTimeTimer >= _lifeTime)
         {

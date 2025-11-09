@@ -170,6 +170,9 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 8185819105698633179}
   _rb: {fileID: 7132860775500277022}
   _flightTime: 1.5
+  _lifeTime: 3
+  rotationSpeed: 300
+  rotationGameObject: {fileID: 1237409026137143010}
 --- !u!50 &7132860775500277022
 Rigidbody2D:
   serializedVersion: 4

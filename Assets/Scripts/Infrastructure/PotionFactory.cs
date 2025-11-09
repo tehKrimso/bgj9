@@ -25,7 +25,7 @@ namespace Infrastructure
             int redCount = 0; //damage
             int greenCount = 0; //health
             int blueCount = 0; //speed
-            int emptyCount = 0; //empty
+            float emptyCount = 1f; //empty
 
             foreach (var ingredient in potionContent)
             {
@@ -42,12 +42,12 @@ namespace Infrastructure
                         break;
                     case IngredientType.Empty:
                     default:
-                        emptyCount++;
+                        emptyCount-= 0.3f;
                         break;
                 }
             }
             
-            Color potionColor = new Color(redCount * COLOR_MULTIPLIER, greenCount * COLOR_MULTIPLIER, blueCount * COLOR_MULTIPLIER, emptyCount * COLOR_MULTIPLIER);
+            Color potionColor = new Color(redCount * COLOR_MULTIPLIER, greenCount * COLOR_MULTIPLIER, blueCount * COLOR_MULTIPLIER, emptyCount);
             
             Potion potion = potionGameObject.GetComponent<Potion>();
             potion.Init(potionContent, target, potionColor);
