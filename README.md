@@ -15,4 +15,4 @@ You play as alchemist supporting tean of heroes in an auto-battler fight. Combin
 - Language: C#
 
 ### Play
-Play on itch.io: https://krimso.itch.io/heroeslasthope
+Play on itch.io: [https://krimso.itch.io/heroeslasthope](https://krimso.itch.io/heroeslasthope)
